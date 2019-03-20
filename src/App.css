@@ -26,3 +26,12 @@ body {
   justify-content: center !important;
   padding: 1% 0;
 }
+
+.icons{
+  display:flex;
+  width:60px !important;
+}
+
+button{
+  width:0% !important;
+}
