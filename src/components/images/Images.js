@@ -6,7 +6,10 @@ import ZoomIn from 'material-ui/svg-icons/action/zoom-in';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { Pagination } from 'semantic-ui-react'
+import { Pagination } from 'semantic-ui-react';
+import {get_favorites_imgs} from '../../actions/index';
+import {connect} from 'react-redux';
+
 import axios from 'axios';
 
 class Images extends Component {
@@ -15,18 +18,29 @@ class Images extends Component {
         images: [],
         open: false,
         currentImg: '',
+        favoriteImg: [],
         paging: 5,
         perPage: 20,
         totalPage: 0,
         defaultPage: 1,
         currentPage: 1,
+        favorites: [],
+        positionFav: -1,
     };
 
+    copyImages = [];
+
     componentDidMount(){
-        this.callApi();
+        this.getData();
     }
 
-    callApi = () => {
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            favorites: nextProps.favorite_images
+        })
+    }
+
+    getData = () => {
         axios.get('https://jsonplaceholder.typicode.com/photos')
         .then((res) => {
             let prev = this.state.perPage * (this.state.currentPage-1);
@@ -34,8 +48,10 @@ class Images extends Component {
             let totalPage = res.data.length / this.state.perPage;
             this.setState({
                 images: res.data.slice(prev,next),
-                totalPage: totalPage
+                totalPage: totalPage,
             });
+            this.state.images.map(img => img.isActive = false);
+            this.copyImages = [...this.state.images];
         })
         .catch(err => console.log(err));
     }
@@ -43,7 +59,22 @@ class Images extends Component {
     getCurrentPage = (event, data) => {
         const nextPage = data.activePage;
         this.setState({currentPage: nextPage});
-        this.callApi();
+        this.getData();
+    }
+
+    getFavoriteImg = (e,img) => {
+        this.setState({positionFav: img.id})
+        this.props.get_favorites_imgs(img);
+    }
+
+    checkFavoritesImgs = (id, index) => {
+        if(this.copyImages.length !== 0){
+            let currentFavImg = this.copyImages[index].isActive;
+            if(this.state.positionFav === id){
+                return this.copyImages[index].isActive = !currentFavImg; 
+            }
+            return this.copyImages[index].isActive = currentFavImg;
+        }
     }
 
     handleOpen = img => this.setState({open:true,currentImg: img})
@@ -60,19 +91,20 @@ class Images extends Component {
                 <div>
                     <GridList cols={4}>
                         {/* All images of current page  */}
-                        {this.state.images.map(img => (
+                        {this.state.images.map((img, index) => (
                             <GridTile
                             title={img.title}
                             key={img.id}
                             actionIcon = {
-                                <IconButton onClick={() => this.handleOpen(img.url)}>
+                                <IconButton >
                                     <div className="icons">
-                                        <ZoomIn color='#000'/>
-                                        <Favorite />
+                                        <ZoomIn color='#000' onClick={() => this.handleOpen(img.url)}/>
+                                        <Favorite 
+                                        onClick={(e) => this.getFavoriteImg(e,img)} 
+                                        color={this.checkFavoritesImgs(img.id,index) ? "red" : "black"}/>
                                     </div>
                                 </IconButton>
                             }>
-                            
                                 <img src={img.url} alt={img.title}/>
                             </GridTile>
                         ))}
@@ -85,7 +117,7 @@ class Images extends Component {
                     onRequestClose={this.handleClose}>
                         <img src={this.state.currentImg} alt="img" style={{width: '100%'}} />
                     </Dialog>
-                    {/* All pages */}
+                    {/* Paginator */}
                     <div id="paginator">
                         <Pagination 
                         defaultActivePage={this.state.defaultPage}
@@ -108,4 +140,11 @@ class Images extends Component {
     }
 }
 
-export default Images;
+function map_state_to_props(state){
+    return {
+        favorite_images: state.favorite_images    // must be same as initialstate in the reducer
+       }
+  }
+
+
+export default connect(map_state_to_props,{get_favorites_imgs})(Images)
