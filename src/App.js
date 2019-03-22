@@ -3,13 +3,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from './components/navbar/NavBar';
 import Images from './components/images/Images';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk'
-import reducers from './store/index'
-import './App.css';
-import Favorites from './components/Favorites';
 
-const store = createStore(reducers, applyMiddleware(thunk))
+import Favorites from './components/Favorites';
+import store from './store/index';
+
+import './App.css';
+
+
+
 
 class App extends Component {
   render() {

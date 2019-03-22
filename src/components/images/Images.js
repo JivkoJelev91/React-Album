@@ -7,7 +7,7 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Pagination } from 'semantic-ui-react';
-import {get_favorites_imgs} from '../../actions/index';
+import {get_favorites_imgs} from '../../actions/postActions';
 import {connect} from 'react-redux';
 import axios from 'axios';
  
@@ -58,6 +58,7 @@ class Images extends Component {
             this.array.push(img.id);
             this.favorites.push(img);
         }
+        console.log(this.props.favorite_images);
         this.props.get_favorites_imgs([...new Set(this.favorites)]);
     }
  

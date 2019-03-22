@@ -1,6 +1,7 @@
-import {combineReducers} from 'redux';
-import favoritesImgs from './favoriteImgs';
+import {createStore, applyMiddleware} from 'redux';
+import reducers from '../reducers/';
+import thunk from 'redux-thunk';
 
-export default combineReducers({
-    favorite_images: favoritesImgs,
-})
+const store = createStore(reducers, applyMiddleware(thunk))
+
+export default store;
