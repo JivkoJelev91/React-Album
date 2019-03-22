@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 class Favorites extends Component {
 
     componentWillReceiveProps(nextProp){
-        // console.log(nextProp);
+        console.log(nextProp);
         // this.setState({
         //     player_cell: nextProp.players_cell
         // })

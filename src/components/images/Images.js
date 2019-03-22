@@ -24,20 +24,14 @@ class Images extends Component {
         totalPage: 0,
         defaultPage: 1,
         currentPage: 1,
-        favorites: [],
     };
+    favorites= [];
     array = []
    
     componentDidMount(){
         this.getData();
     }
- 
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            favorites: nextProps.favorite_images
-        })
-    }
- 
+
     getData = () => {
         axios.get('https://jsonplaceholder.typicode.com/photos')
         .then((res) => {
@@ -59,13 +53,15 @@ class Images extends Component {
     }
  
     getFavoriteImg = (e,img) => {
-        this.props.get_favorites_imgs(img);
         let index = this.array.indexOf(img.id); 
         if(index > -1) {
-            return this.array.splice(index, 1);
+            this.array.splice(index, 1);
+            this.favorites.splice(index,1);
         }else{
-            return this.array.push(img.id);
+            this.array.push(img.id);
+            this.favorites.push(img);
         }
+        this.props.get_favorites_imgs([...new Set(this.favorites)]);
     }
  
     handleOpen = img => this.setState({open:true,currentImg: img})
@@ -132,8 +128,8 @@ class Images extends Component {
 function map_state_to_props(state){
     return {
         favorite_images: state.favorite_images    // must be same as initialstate in the reducer
-       }
-  }
+    }
+}
  
  
 export default connect(map_state_to_props,{get_favorites_imgs})(Images)
