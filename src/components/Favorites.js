@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class Favorites extends Component {
 
     componentWillReceiveProps(nextProp){
-        console.log(nextProp);
+        // console.log(nextProp);
     }
 
     render() {

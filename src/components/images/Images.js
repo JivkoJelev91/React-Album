@@ -7,8 +7,9 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Pagination } from 'semantic-ui-react';
-import {get_favorites_imgs} from '../../actions/postActions';
+import {get_favorites_imgs, save_favorite_icons} from '../../actions/postActions';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from 'axios';
  
 class Images extends Component {
@@ -20,7 +21,7 @@ class Images extends Component {
         totalPage: 0,
         currentPage: 1,
     };
-
+    
     perPage = 20;
     favorites= [];
     array = [];
@@ -58,8 +59,8 @@ class Images extends Component {
             this.array.push(img.id);
             this.favorites.push(img);
         }
-        console.log(this.props.favorite_images);
         this.props.get_favorites_imgs([...new Set(this.favorites)]);
+        this.props.save_favorite_icons([...new Set([...this.props.get_favorites_icons,...this.array])]);
     }
  
     handleOpen = img => this.setState({open:true,currentImg: img})
@@ -70,7 +71,7 @@ class Images extends Component {
         const actions = [
             <FlatButton label="Close" primary={true} onClick={this.handleClose} />
         ];
- 
+        console.log(this.props.get_favorites_icons)
         if(this.state.images.length > 0){
             return (
                 <div>
@@ -84,7 +85,7 @@ class Images extends Component {
                                 <IconButton >
                                     <div className="icons">
                                         <ZoomIn color='#000' onClick={() => this.handleOpen(img.url)}/>
-                                        <Favorite onClick={(e) => this.getFavoriteImg(e,img)} color={this.array.indexOf(img.id) > -1 ? "red" : "black"}/>
+                                        <Favorite onClick={(e) => this.getFavoriteImg(e,img)} color={this.props.get_favorites_icons.indexOf(img.id) > -1 ? "red" : "black"}/>
                                     </div>
                                 </IconButton>
                             }>
@@ -122,12 +123,18 @@ class Images extends Component {
         }
     }
 }
+
+Images.propTypes = {
+    favorite_images: PropTypes.array.isRequired,
+    get_favorites_icons: PropTypes.array.isRequired
+}
  
 function map_state_to_props(state){
     return {
-        favorite_images: state.favorite_images    // must be same as initialstate in the reducer
+        favorite_images: state.favorite_images,    // must be same as initialstate in the reducer
+        get_favorites_icons:  state.get_favorites
     }
 }
  
  
-export default connect(map_state_to_props,{get_favorites_imgs})(Images)
+export default connect(map_state_to_props,{get_favorites_imgs, save_favorite_icons})(Images)

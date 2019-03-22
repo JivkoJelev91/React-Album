@@ -7,9 +7,10 @@
     "material-ui": "^0.20.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8",
     "react-redux": "^6.0.1",
+    "react-scripts": "2.1.8",
     "redux": "^4.0.1",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.86.0"
   },
