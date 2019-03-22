@@ -9,11 +9,11 @@ import FlatButton from 'material-ui/FlatButton';
 import { Pagination } from 'semantic-ui-react';
 import {get_favorites_imgs} from '../../actions/index';
 import {connect} from 'react-redux';
-
+ 
 import axios from 'axios';
-
+ 
 class Images extends Component {
-
+   
     state = {
         images: [],
         open: false,
@@ -25,21 +25,19 @@ class Images extends Component {
         defaultPage: 1,
         currentPage: 1,
         favorites: [],
-        positionFav: -1,
     };
-
-    copyImages = [];
-
+    array = []
+   
     componentDidMount(){
         this.getData();
     }
-
+ 
     componentWillReceiveProps(nextProps){
         this.setState({
             favorites: nextProps.favorite_images
         })
     }
-
+ 
     getData = () => {
         axios.get('https://jsonplaceholder.typicode.com/photos')
         .then((res) => {
@@ -50,48 +48,41 @@ class Images extends Component {
                 images: res.data.slice(prev,next),
                 totalPage: totalPage,
             });
-            this.state.images.map(img => img.isActive = false);
-            this.copyImages = [...this.state.images];
         })
         .catch(err => console.log(err));
     }
-
+ 
     getCurrentPage = (event, data) => {
         const nextPage = data.activePage;
         this.setState({currentPage: nextPage});
         this.getData();
     }
-
+ 
     getFavoriteImg = (e,img) => {
-        this.setState({positionFav: img.id})
         this.props.get_favorites_imgs(img);
-    }
-
-    checkFavoritesImgs = (id, index) => {
-        if(this.copyImages.length !== 0){
-            let currentFavImg = this.copyImages[index].isActive;
-            if(this.state.positionFav === id){
-                return this.copyImages[index].isActive = !currentFavImg; 
-            }
-            return this.copyImages[index].isActive = currentFavImg;
+        let index = this.array.indexOf(img.id); 
+        if(index > -1) {
+            return this.array.splice(index, 1);
+        }else{
+            return this.array.push(img.id);
         }
     }
-
+ 
     handleOpen = img => this.setState({open:true,currentImg: img})
-
+ 
     handleClose = () => this.setState({open:false});
-
+ 
     render() {
         const actions = [
             <FlatButton label="Close" primary={true} onClick={this.handleClose} />
         ];
-
+ 
         if(this.state.images.length > 0){
             return (
                 <div>
                     <GridList cols={4}>
                         {/* All images of current page  */}
-                        {this.state.images.map((img, index) => (
+                        {this.state.images.map((img) => (
                             <GridTile
                             title={img.title}
                             key={img.id}
@@ -99,9 +90,7 @@ class Images extends Component {
                                 <IconButton >
                                     <div className="icons">
                                         <ZoomIn color='#000' onClick={() => this.handleOpen(img.url)}/>
-                                        <Favorite 
-                                        onClick={(e) => this.getFavoriteImg(e,img)} 
-                                        color={this.checkFavoritesImgs(img.id,index) ? "red" : "black"}/>
+                                        <Favorite onClick={(e) => this.getFavoriteImg(e,img)} color={this.array.indexOf(img.id) > -1 ? "red" : "black"}/>
                                     </div>
                                 </IconButton>
                             }>
@@ -119,7 +108,7 @@ class Images extends Component {
                     </Dialog>
                     {/* Paginator */}
                     <div id="paginator">
-                        <Pagination 
+                        <Pagination
                         defaultActivePage={this.state.defaultPage}
                         totalPages={this.state.totalPage}
                         onPageChange={this.getCurrentPage}
@@ -139,12 +128,12 @@ class Images extends Component {
         }
     }
 }
-
+ 
 function map_state_to_props(state){
     return {
         favorite_images: state.favorite_images    // must be same as initialstate in the reducer
        }
   }
-
-
+ 
+ 
 export default connect(map_state_to_props,{get_favorites_imgs})(Images)

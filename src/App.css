@@ -24,6 +24,7 @@ body {
 .pagination{
   display:flex !important;
   justify-content: center !important;
+  flex-wrap: wrap !important;
   padding: 1% 0;
 }
 
