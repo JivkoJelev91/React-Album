@@ -9,7 +9,6 @@ import FlatButton from 'material-ui/FlatButton';
 import { Pagination } from 'semantic-ui-react';
 import {get_favorites_imgs} from '../../actions/index';
 import {connect} from 'react-redux';
- 
 import axios from 'axios';
  
 class Images extends Component {
@@ -18,15 +17,13 @@ class Images extends Component {
         images: [],
         open: false,
         currentImg: '',
-        favoriteImg: [],
-        paging: 5,
-        perPage: 20,
         totalPage: 0,
-        defaultPage: 1,
         currentPage: 1,
     };
+
+    perPage = 20;
     favorites= [];
-    array = []
+    array = [];
    
     componentDidMount(){
         this.getData();
@@ -35,9 +32,9 @@ class Images extends Component {
     getData = () => {
         axios.get('https://jsonplaceholder.typicode.com/photos')
         .then((res) => {
-            let prev = this.state.perPage * (this.state.currentPage-1);
-            let next = this.state.perPage * this.state.currentPage;
-            let totalPage = res.data.length / this.state.perPage;
+            let prev = this.perPage * (this.state.currentPage-1);
+            let next = this.perPage * this.state.currentPage;
+            let totalPage = res.data.length / this.perPage;
             this.setState({
                 images: res.data.slice(prev,next),
                 totalPage: totalPage,
@@ -66,7 +63,7 @@ class Images extends Component {
  
     handleOpen = img => this.setState({open:true,currentImg: img})
  
-    handleClose = () => this.setState({open:false});
+    handleClose = () => this.setState({open:false})
  
     render() {
         const actions = [
@@ -105,7 +102,7 @@ class Images extends Component {
                     {/* Paginator */}
                     <div id="paginator">
                         <Pagination
-                        defaultActivePage={this.state.defaultPage}
+                        defaultActivePage={1}
                         totalPages={this.state.totalPage}
                         onPageChange={this.getCurrentPage}
                          />

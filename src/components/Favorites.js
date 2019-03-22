@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
-
 class Favorites extends Component {
 
     componentWillReceiveProps(nextProp){
         console.log(nextProp);
-        // this.setState({
-        //     player_cell: nextProp.players_cell
-        // })
     }
     render() {
         return (
-        <div>
-            
-        </div>
+            <div>
+                
+            </div>
         )
     }
 }
@@ -26,5 +22,5 @@ function map_state_to_props(state){
   }
 
 
-export default connect(map_state_to_props)(Favorites)
+export default connect(map_state_to_props)(Favorites);
 
