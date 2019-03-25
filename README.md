@@ -1,4 +1,4 @@
 # React-Album
 
-* npm install
-* npm start
+* <b>npm install</b>
+* <b>npm start</b>
