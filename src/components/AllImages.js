@@ -6,6 +6,8 @@ import Images from './images/Images';
 import Favorites from './Favorites';
 import { Button } from 'semantic-ui-react';
 import FlatButton from 'material-ui/FlatButton';
+import { persistor } from '../store/index';
+
 
 class AllImages extends Component {
 
@@ -13,10 +15,7 @@ class AllImages extends Component {
   
     getImages = () => this.setState({isActive: !this.state.isActive})
 
-    clearAllFavoriteImgs = () => {
-        localStorage.clear();
-        window.location.reload(); 
-    }
+    clearAllFavoriteImgs = () => persistor.purge() && window.location.reload();
     
     render() {
         const actions = [
