@@ -84,15 +84,21 @@ class Images extends Component {
                         {/* All images of current page  */}
                         {this.state.images.map((img) => (
                             <GridTile
-                            title={img.title}
                             key={img.id}
+                            title={img.title}
                             actionIcon = {
-                                <IconButton >
-                                    <div className="icons">
-                                        <ZoomIn color='#000' onClick={() => this.handleOpen(img.url)}/>
-                                        <Favorite onClick={(e) => this.getFavoriteImg(e,img)} color={this.props.get_favorites_icons.indexOf(img.id) > -1 ? "red" : "black"}/>
-                                    </div>
-                                </IconButton>
+                                <div className="icons">
+                                    <span>
+                                        <IconButton  >
+                                            <ZoomIn color='#000' onClick={() => this.handleOpen(img.url)}/>
+                                        </IconButton>
+                                    </span>
+                                    <span onClick={(e) => this.getFavoriteImg(e,img)}>
+                                        <IconButton  >
+                                            <Favorite  color={this.props.get_favorites_icons.indexOf(img.id) > -1 ? "red" : "black"}/>
+                                        </IconButton>
+                                    </span>
+                                </div>
                             }>
                                 <img src={img.url} alt={img.title}/>
                             </GridTile>

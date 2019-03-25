@@ -29,11 +29,6 @@ body {
   padding: 1% 0;
 }
 
-.icons{
-  display:flex;
-  width:60px !important;
-}
-
 button{
   width:0% !important;
 }
@@ -45,4 +40,8 @@ button{
 h1{
   text-align: center;
   font-family: Helvetica, Arial, sans-serif;
+}
+
+.icons{
+  display:flex !important;
 }
