@@ -8,7 +8,6 @@ import { Button } from 'semantic-ui-react';
 import FlatButton from 'material-ui/FlatButton';
 import { persistor } from '../store/index';
 
-
 class AllImages extends Component {
 
     state = {isActive: false};
@@ -25,15 +24,17 @@ class AllImages extends Component {
             <div>
                 <NavBar />
                     <Button fluid className="favoriteBtn" onClick={this.getImages}>
-                        {this.state.isActive ? <h2>All images</h2> : <h2>Favorite images</h2>}
+                        {this.state.isActive ? <h2>All images</h2> : <h2>Look your favorite images</h2>}
                     </Button>
                     <div>
                         {!this.state.isActive ? <Images actions={actions}/> : <Favorites isActive={this.state.isActive} actions={actions}/>}
                     </div>
-                    {this.props.favorite_images.length > 0 ?
-                    <Button fluid className="favoriteBtn" onClick={this.clearAllFavoriteImgs}>
-                    {this.state.isActive ? <h2>Clear all Favorite Images</h2> : null }
-                     </Button> : null}
+                    <div>
+                        {this.props.favorite_images.length > 0 ?
+                        <Button fluid className="favoriteBtn" onClick={this.clearAllFavoriteImgs}>
+                            {this.state.isActive ? <h2>Clear all Favorite Images</h2> : null }
+                        </Button> : null}
+                    </div>
             </div>
         )
     }
