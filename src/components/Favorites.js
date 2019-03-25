@@ -25,6 +25,10 @@ class Favorites extends Component {
     handleClose = () => this.setState({open:false})
 
     render() {
+        const actions = [
+            <FlatButton label="Close" primary={true} onClick={this.handleClose} />
+        ];
+
         if(this.props.isActive && this.props.favorite_images.length > 0){
             return (
                 <div>
@@ -45,7 +49,7 @@ class Favorites extends Component {
                     </GridList>
                     {/*The modal with clicked img */}
                     <Dialog
-                    actions={<FlatButton label="Close" primary={true} onClick={this.handleClose} />}
+                    actions={actions}
                     modal={false}
                     open={this.state.open}
                     onRequestClose={this.handleClose}>
@@ -56,7 +60,6 @@ class Favorites extends Component {
         }else{
             return <h1>There is no favorite image!</h1>
         }
-        
     }
 }
 

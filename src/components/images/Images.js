@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { GridList, GridTile } from 'material-ui/GridList/';
 import CircularProgress from 'material-ui/CircularProgress';
 import IconButton from 'material-ui/IconButton';
@@ -7,9 +8,9 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Pagination } from 'semantic-ui-react';
-import {get_favorites_imgs, save_favorite_icons} from '../../actions/postActions';
+import {get_favorites_imgs} from '../../actions/postActions';
+import {save_favorite_icons} from '../../actions/postActions';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import axios from 'axios';
  
 class Images extends Component {
@@ -75,6 +76,7 @@ class Images extends Component {
         const actions = [
             <FlatButton label="Close" primary={true} onClick={this.handleClose} />
         ];
+
         if(this.state.images.length > 0){
             return (
                 <div>
@@ -130,14 +132,13 @@ class Images extends Component {
 Images.propTypes = {
     favorite_images: PropTypes.array.isRequired,
     get_favorites_icons: PropTypes.array.isRequired
-}
+};
  
 function map_state_to_props(state){
     return {
         favorite_images: state.favorite_images,    // must be same as initialstate in the reducer
-        get_favorites_icons:  state.get_favorites
+        get_favorites_icons:  state.get_favorites  // must be same as initialstate in the reducer
     }
 }
- 
  
 export default connect(map_state_to_props,{get_favorites_imgs, save_favorite_icons})(Images)

@@ -1,4 +1,3 @@
-
 import { GET_FAVORITES } from '../actions/types';
 
 export default (state = [], actions) => {
