@@ -36,3 +36,11 @@ body {
 button{
   width:0% !important;
 }
+
+.favoriteBtn{
+  width:100% !important;
+}
+
+h1{
+  text-align: center;
+}

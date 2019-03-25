@@ -28,6 +28,10 @@ class Images extends Component {
    
     componentDidMount(){
         this.getData();
+        if(this.props.favorite_images.length > 0) {
+            this.array = this.props.get_favorites_icons;
+            this.favorites = this.props.favorite_images;
+        }
     }
 
     getData = () => {
@@ -59,8 +63,8 @@ class Images extends Component {
             this.array.push(img.id);
             this.favorites.push(img);
         }
+        this.props.save_favorite_icons([...new Set(this.array)]);
         this.props.get_favorites_imgs([...new Set(this.favorites)]);
-        this.props.save_favorite_icons([...new Set([...this.props.get_favorites_icons,...this.array])]);
     }
  
     handleOpen = img => this.setState({open:true,currentImg: img})
@@ -71,7 +75,6 @@ class Images extends Component {
         const actions = [
             <FlatButton label="Close" primary={true} onClick={this.handleClose} />
         ];
-        console.log(this.props.get_favorites_icons)
         if(this.state.images.length > 0){
             return (
                 <div>
