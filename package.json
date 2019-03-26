@@ -2,10 +2,8 @@
   "name": "react-album",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/JivkoJelev91/React-Album/",
   "dependencies": {
     "axios": "^0.18.0",
-    "gh-pages": "^2.0.1",
     "material-ui": "^0.20.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
@@ -18,7 +16,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

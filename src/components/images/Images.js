@@ -95,7 +95,7 @@ class Images extends Component {
                                     </span>
                                     <span onClick={(e) => this.getFavoriteImg(e,img)}>
                                         <IconButton  >
-                                            <Favorite  color={this.props.get_favorites_icons.indexOf(img.id) > -1 ? "red" : "black"}/>
+                                            <Favorite  color={this.props.get_favorites_icons.indexOf(img.id) > -1 ? "#FF0000" : "#000"}/>
                                         </IconButton>
                                     </span>
                                 </div>
